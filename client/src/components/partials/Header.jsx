@@ -44,7 +44,7 @@ const Header = ({ data }) => {
   return (
     <div
       style={{
-        background: `linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.6),rgba(0,0,0,0.9)),
+        background: `linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0.3),rgba(0,0,0,0.5)),
         url(https://image.tmdb.org/t/p/original/${
           data.backdrop_path || data.profile_path
         })`,

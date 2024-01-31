@@ -159,7 +159,7 @@ function tvDetails() {
           <h1 className="text-2xl mt-1">Overview</h1>
           <p className="mb-10">{ultimateDetails?.tvData?.overview}</p>
           <Link
-            className="w-[20.5vh] p-10 rounded-lg bg-[#000000aa] px-5 py-5"
+            className="min-w-[20.5vh] rounded-xl bg-[#000000aa] px-5 py-5"
             to={`https://www.youtube.com/watch?v=${ultimateDetails?.videos?.key}`}
             target="_blank"
           >
