@@ -24,4 +24,3 @@ dist-ssr
 *.sw?
 
 
-client/src/components/utils/Axios.jsx

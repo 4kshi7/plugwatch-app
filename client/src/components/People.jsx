@@ -9,41 +9,44 @@ import InfiniteScroll from "react-infinite-scroll-component";
 const People = () => {
   const navigate = useNavigate();
   const [category, setCategory] = useState("popular");
-  const [person, setperson] = useState([]);
-  const [page, setpage] = useState(1);
-  const [hasMore, sethasMore] = useState(true);
+  const [person, setPerson] = useState([]);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(false); // Add loading state
 
-  const getperson = async () => {
+  const getPerson = async () => {
     try {
+      setLoading(true); // Set loading state to true
       const { data } = await Axios.get(`/person/${category}?page=${page}`);
 
       if (data.results.length > 0) {
-        setperson((prevState) => [...prevState, ...data.results]);
-        setpage(page + 1);
+        setPerson((prevState) => [...prevState, ...data.results]);
+        setPage(page + 1);
       } else {
-        sethasMore(false);
+        setHasMore(false);
       }
-      //   setperson(data.results);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false); // Set loading state to false after request completes
     }
   };
 
   const refreshHandler = () => {
-    if (person.length === 0) {
-      getperson();
-    } else {
-      setpage(1);
-      setperson([]);
-      getperson();
-    }
+    setPage(1);
+    setPerson([]); // Clear existing data
+    setHasMore(true); // Reset hasMore flag
+    getPerson();
   };
 
   useEffect(() => {
     refreshHandler();
-    getperson();
+    return () => {
+      // Cleanup function to cancel any pending requests or subscriptions
+    };
   }, [category]);
-  return person.length > 0 ? (
+
+  return (
     <div className="flex flex-col">
       <div className="px-[5%] w-screen h-screen flex items-start">
         <div className="w-full flex items-center ">
@@ -58,18 +61,20 @@ const People = () => {
         </div>
       </div>
       <div className="">
-        <InfiniteScroll
-          dataLength={person.length}
-          next={getperson}
-          hasMore={hasMore}
-          loader={<>loading</>}
-        >
-          <Cards data={person} title="person" />
-        </InfiniteScroll>
+        {loading ? ( // Show loading indicator while data is being fetched
+          <Loading />
+        ) : (
+          <InfiniteScroll
+            dataLength={person.length}
+            next={getPerson}
+            hasMore={hasMore}
+            loader={<>loading</>}
+          >
+            <Cards data={person} title="person" />
+          </InfiniteScroll>
+        )}
       </div>
     </div>
-  ) : (
-    <Loading />
   );
 };
 
