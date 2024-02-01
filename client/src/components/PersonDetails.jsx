@@ -63,7 +63,7 @@ function PersonDetails() {
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
       }}
-      className="w-screen h-fit px-[10%]"
+      className="w-full h-fit px-[10%]"
     >
       {/* Navigation */}
       <nav className="w-full text-zinc-100 flex gap-10 text-xl h-[10vh] items-center">

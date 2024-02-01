@@ -48,7 +48,7 @@ const Trending = () => {
 
   return trending.length > 0 ? (
     <div className="flex flex-col">
-      <div className="px-[5%] w-screen h-screen flex items-start">
+      <div className="w-full h-screen flex items-start px-[10%]">
         <div className="w-full flex items-center ">
           <h1 className="text-2xl text-zinc-400 font-semibold">
             <i

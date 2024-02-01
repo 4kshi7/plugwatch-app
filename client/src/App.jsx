@@ -12,7 +12,7 @@ import About from "./components/About";
 
 function App() {
   return (
-    <div className="w-[100vw] h-[100vh] flex">
+    <div className="w-full h-[100vh] flex">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/trending" element={<Trending />} />

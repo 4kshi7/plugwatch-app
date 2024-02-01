@@ -90,7 +90,7 @@ function MovieDetails() {
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
       }}
-      className="h-fit w-screen px-[10%]"
+      className="h-fit w-full px-[10%]"
     >
       {/* nav area */}
       <nav className="w-full text-zinc-100 flex gap-10 text-xl h-[10vh] items-center">

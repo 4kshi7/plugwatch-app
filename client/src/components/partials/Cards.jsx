@@ -4,7 +4,7 @@ import noimage from "../../../public/noimage.jpg";
 
 const Cards = ({ data, title }) => {
   return (
-    <div className="flex flex-wrap pt-5 w-full mx-[5%] justify-center items-center bg-[#0f0f0f]">
+    <div className="flex flex-wrap pt-5 w-full justify-center items-center bg-[#0f0f0f]">
       {data.map((c, i) => (
         <Link
           to={`/${c.media_type || title}/details/${c.id}`}
