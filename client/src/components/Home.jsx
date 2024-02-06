@@ -50,9 +50,9 @@ function Home() {
 
   return wallpaper && trending && popular ? (
     <>
-      <Navbar />
-      <div className="w-[80%] h-full overflow-auto overflow-x-hidden">
-        <Topnav />
+      {/* <Navbar /> */}
+      <div className="w-[100%] h-full overflow-auto overflow-x-hidden">
+        {/* <Topnav /> */}
         <Header data={wallpaper} />
         <HorizontalCards data={trending} title={"Movies"} />
       </div>

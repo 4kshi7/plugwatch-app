@@ -21,9 +21,9 @@ const Topnav = () => {
   }, [query]);
 
   return (
-    <div className="w-full h-[10vh] relative flex justify-start items-center pl-[7%]">
-      <div className="w-[98vh] flex justify-between rounded-3xl items-center border-[#303030] py-1 border-[1px]">
-        <i className="text-zinc-400 text-xl ri-search-line ml-3"></i>
+    <div className="w-fit  h-[10vh] relative flex justify-start items-center">
+      <div className="w-[30vw] flex justify-between rounded-3xl items-center border-[#ffffff3c] py-1 border-[1px]">
+        <i className="text-zinc-400 text-lg ri-search-line ml-3"></i>
         <input
           onChange={(e) => setQuery(e.target.value)}
           value={query}
@@ -39,12 +39,12 @@ const Topnav = () => {
         )}
       </div>
 
-      <div className="w-[59%] max-h-[55vh] absolute top-[100%] bg-zinc-100 overflow-auto z-10">
+      <div className=" lg:w-[100%] max-h-[60vh] absolute top-[100%] bg-zinc-800 overflow-auto z-10">
         {searches.map((s, i) => (
           <Link
             to={`/${s.media_type}/details/${s.id}`}
             key={i}
-            className="hover:text-black hover:bg-zinc-300 font-semibold text-zinc-600 w-[100%] p-3 flex justify-start items-center border-b-2 border-zinc-100 duration-300 "
+            className="hover:text-white hover:bg-zinc-900 font-semibold text-zinc-100 w-[100%] p-3 flex justify-start items-center border-b-2 border-zinc-800 duration-300 "
           >
             <img
               className="w-[15vh] h-[15vh] object-cover rounded mr-5 shadow-lg hover:rotate-6 duration-300"
