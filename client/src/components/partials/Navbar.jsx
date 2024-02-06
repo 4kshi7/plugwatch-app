@@ -14,7 +14,7 @@ const Navbar = () => {
         {/* <h1 className="text-white font-semibold text-xl mt-7 mb-3">Feed</h1> */}
         <Link
           to="/trending"
-          className="hover:bg-[#2ea42369] hover:text-white duration-300 rounded-lg px-5 py-2 flex gap-2"
+          className="hover:bg-[#2EA423] hover:text-white duration-300 rounded-lg px-5 py-2 flex gap-2"
         >
           {/* <i className="ri-fire-fill"></i> */}
           Trending

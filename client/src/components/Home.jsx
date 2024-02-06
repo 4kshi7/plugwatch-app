@@ -55,6 +55,7 @@ function Home() {
         {/* <Topnav /> */}
         <Header data={wallpaper} />
         <HorizontalCards data={trending} title={"Movies"} />
+        <HorizontalCards data={popular} title={"TV"} />
       </div>
     </>
   ) : (

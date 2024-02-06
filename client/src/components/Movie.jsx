@@ -48,7 +48,7 @@ const Movie = () => {
     <div className="flex flex-col">
       <div className="w-full h-screen flex items-start px-[10%]">
         <div className="w-full flex items-center ">
-          <h1 className="text-2xl text-zinc-400 font-semibold">
+          <h1 className="text-2xl text-zinc-400 font-semibold mr-[15%]">
             <i
               onClick={() => navigate(-1)}
               className="hover:text-[#2EA423] ri-arrow-go-back-line cursor-pointer mr-1"

@@ -4,14 +4,14 @@ import { Link } from "react-router-dom";
 const HorizontalCards = ({ data , title}) => {
   // console.log(data)
   return (
-    <div className="w-full p-5">
+    <div className="w-full px-[2%] py-4">
       <div className="mb-1">
         <h1 className="text-xl ml-2 text-zinc-400 font-semibold ">{title.toUpperCase()} </h1>
       
       </div>
       <div className="w-[100%] flex overflow-y-hidden p-4">
         {data.map((d, i) => (
-          <Link to={`/${d.media_type|| title}/details/${d.id}`} key={i} className=" hover:scale-[110%] duration-200 min-w-[20%] h-full mr-8 bg-zinc-900 ">
+          <Link to={`/${d.media_type|| title}/details/${d.id}`} key={i} className=" hover:scale-[110%] duration-200 lg:min-w-[23%] md:min-w-[45%] min-w-[65%] h-full mr-8 bg-zinc-900 ">
             <img
               className="w-full h-[55%] object-cover"
               src={`https://image.tmdb.org/t/p/original/${
