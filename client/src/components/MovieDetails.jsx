@@ -18,7 +18,7 @@ function MovieDetails() {
     ultimateDetails?.movieData?.original_title
   }`;
 
-  document.title = 'Movie Details';
+  document.title = "Movie Details";
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
@@ -167,12 +167,11 @@ function MovieDetails() {
           <div className="w-[80%] flex flex-col gap-y-5 mt-10">
             {ultimateDetails?.watchProviders &&
               ultimateDetails?.watchProviders?.flatrate && (
-                <div 
-                className="flex gap-x-10 items-center text-white">
+                <div className="flex gap-x-10 items-center text-white">
                   <h1>Available on </h1>
-                  {ultimateDetails?.watchProviders?.flatrate.map((w,i) => (
+                  {ultimateDetails?.watchProviders?.flatrate.map((w, i) => (
                     <img
-                    key={i}
+                      key={i}
                       title={w?.provider_name}
                       className="h-[5vh] w-[5vh] object-cover rounded-md"
                       src={`https://image.tmdb.org/t/p/original/${w?.logo_path})`}
@@ -215,6 +214,14 @@ function MovieDetails() {
               )}
           </div>
         </div>
+      </div>
+
+      {/* movie stream */}
+      <div className="mt-32 mb-32 h-[80vh] w-[80vw]">
+        <iframe
+          src={`https://multiembed.mov/directstream.php?video_id=${id}&tmdb=1`}
+          className="h-full w-full"
+        ></iframe>
       </div>
 
       {/* cast */}
