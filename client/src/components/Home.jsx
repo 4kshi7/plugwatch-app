@@ -48,6 +48,7 @@ function Home() {
     !popular && getpopular();
   }, []);
 
+
   return wallpaper && trending && popular ? (
     <>
       {/* <Navbar /> */}

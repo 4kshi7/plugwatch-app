@@ -11,11 +11,11 @@ const HorizontalCards = ({ data , title}) => {
       </div>
       <div className="w-[100%] flex overflow-y-hidden p-4">
         {data.map((d, i) => (
-          <Link to={`/${d.media_type|| title}/details/${d.id}`} key={i} className=" hover:scale-[110%] duration-200 lg:min-w-[23%] md:min-w-[45%] min-w-[65%] h-full mr-8 bg-zinc-900 ">
+          <Link to={`/${d.media_type|| title}/details/${d.id}`} key={i} className=" hover:scale-[105%] duration-200 lg:min-w-[34vh] md:min-w-[30vh] min-w-[38vh] h-full mr-8 bg-zinc-900 hover:bg-zinc-700">
             <img
-              className="w-full h-[55%] object-cover"
+              className="h-[50vh] lg:h-[47vh] md:h-[45vh] w-full object-cover overflow-"
               src={`https://image.tmdb.org/t/p/original/${
-                d.backdrop_path || d.poster_path
+                d.poster_path
               }`}
               alt=""
             />
@@ -28,10 +28,7 @@ const HorizontalCards = ({ data , title}) => {
                   d.original_title
                 ).slice(0, 15)}...
               </h1>
-              <p className="text-zinc-500">
-                {d.overview.slice(0,70)}...
-                <span className="text-zinc-100"> more</span>
-              </p>
+           
             </div>
           </Link>
         ))}

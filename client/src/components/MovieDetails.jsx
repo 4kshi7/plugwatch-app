@@ -119,7 +119,7 @@ function MovieDetails() {
 
       <div className="w-full flex ">
         <img
-          className="shadow-[8px_17px_38px_2px_rgba(0,0,0,2)] w-[40vh] object-cover "
+          className="shadow-[8px_17px_38px_2px_rgba(0,0,0,2)] w-[280px] h-[450px] object-cover "
           src={`https://image.tmdb.org/t/p/original/${
             ultimateDetails?.movieData?.poster_path ||
             ultimateDetails?.movieData?.backdrop_path
@@ -157,7 +157,7 @@ function MovieDetails() {
           <h1 className="text-2xl mt-1">Overview</h1>
           <p className="mb-10">{ultimateDetails?.movieData?.overview}</p>
           <Link
-            className="w-[20.5vh] p-10 rounded-lg bg-[#000000aa] px-5 py-5"
+            className="w-[21vh] p-10 rounded-lg bg-[#000000aa] px-5 py-5"
             to={`https://www.youtube.com/watch?v=${ultimateDetails?.videos?.key}`}
             target="_blank"
           >
