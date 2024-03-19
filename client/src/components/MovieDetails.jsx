@@ -216,13 +216,6 @@ function MovieDetails() {
         </div>
       </div>
 
-      {/* movie stream */}
-      <div className="mt-32 mb-32 h-[80vh] w-[80vw]">
-        <iframe
-          src={`https://multiembed.mov/directstream.php?video_id=${id}&tmdb=1`}
-          className="h-full w-full"
-        ></iframe>
-      </div>
 
       {/* cast */}
       <hr className="mt-10 mb-1 border-none h-[2px] bg-zinc-500" />
