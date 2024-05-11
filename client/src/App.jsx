@@ -10,6 +10,7 @@ import TVDetails from "./components/TVDetails";
 import PersonDetails from "./components/PersonDetails";
 import About from "./components/About";
 
+
 function App() {
   return (
     <div className="w-full h-[100vh] flex">
