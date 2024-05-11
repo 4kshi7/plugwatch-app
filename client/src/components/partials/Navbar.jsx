@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo-no-background.png";
-import logosm from "../../assets/logo-small.png";
 import Topnav from "./Topnav";
 
 const Navbar = () => {

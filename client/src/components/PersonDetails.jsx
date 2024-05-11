@@ -1,17 +1,26 @@
-import React, { useState, useEffect } from "react";
+// PersonDetails.jsx
+import React, { useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { useRecoilState } from "recoil";
 import Axios from "../utils/Axios";
 import Loading from "./Loading";
 import noimage from "../../public/noimage.jpg";
+import {
+  personDetailsState,
+  personMoviesState,
+  personSocialsState,
+  isPersonLoadingState,
+  personErrorState,
+} from "../utils/Atoms";
 
 function PersonDetails() {
-  document.title = "Person Details"
+  document.title = "Person Details";
   const { id } = useParams();
-  const [personDetails, setPersonDetails] = useState(null);
-  const [personData, setPersonData] = useState(null);
-  const [socials, setSocials] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [personDetails, setPersonDetails] = useRecoilState(personDetailsState);
+  const [personMovies, setPersonMovies] = useRecoilState(personMoviesState);
+  const [socials, setSocials] = useRecoilState(personSocialsState);
+  const [isLoading, setIsLoading] = useRecoilState(isPersonLoadingState);
+  const [error, setError] = useRecoilState(personErrorState);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,7 +33,7 @@ function PersonDetails() {
             Axios.get(`/person/${id}/external_ids`),
           ]);
         setPersonDetails(personResponse.data);
-        setPersonData(moviesResponse.data);
+        setPersonMovies(moviesResponse.data);
         setSocials(socialResponse.data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -35,7 +44,7 @@ function PersonDetails() {
     };
 
     fetchData();
-  }, [id]);
+  }, [id, setPersonDetails, setPersonMovies, setSocials, setIsLoading, setError]);
 
   if (isLoading) {
     return <Loading />;
@@ -45,15 +54,11 @@ function PersonDetails() {
     return <div className="text-white">{error}</div>;
   }
 
-  
-
-  const validCast = personData?.cast.filter((item) => item.vote_average > 5);
+  const validCast = personMovies?.cast.filter((item) => item.vote_average > 5);
   const randomNumber = Math.floor(Math.random() * validCast.length + 1);
-
   const backgroundImg = validCast[randomNumber]?.backdrop_path
     ? `https://image.tmdb.org/t/p/original/${validCast[randomNumber].backdrop_path}`
     : "https://img.freepik.com/premium-photo/pastel-tone-black-red-purple-gradient-defocused-abstract-photo-color-background_640734-17.jpg";
-
 
   return (
     <div
@@ -115,7 +120,6 @@ function PersonDetails() {
           )}
 
           <h1 className="text-md mt-1">
-
             {personDetails?.biography.slice(0, 1200)}...
           </h1>
           <p className="mb-10"></p>

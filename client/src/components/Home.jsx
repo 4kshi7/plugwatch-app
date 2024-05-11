@@ -1,17 +1,18 @@
-import { useEffect, useState } from "react";
-import Navbar from "./partials/Navbar";
-import Topnav from "./partials/Topnav";
-import Header from "./partials/Header";
+// Home.jsx
+import { useEffect } from "react";
+import { useRecoilState } from "recoil";
+import { wallpaperState, trendingState, popularState } from "../utils/Atoms";
 import Axios from "../utils/Axios";
+import Header from "./partials/Header";
 import HorizontalCards from "./partials/HorizontalCards";
 import Loading from "./Loading";
 
 function Home() {
   document.title = "PlugWatch";
 
-  const [wallpaper, setWallpaper] = useState(null);
-  const [trending, settrending] = useState(null);
-  const [popular, setpopular] = useState(null);
+  const [wallpaper, setWallpaper] = useRecoilState(wallpaperState);
+  const [trending, setTrending] = useRecoilState(trendingState);
+  const [popular, setPopular] = useRecoilState(popularState);
 
   const getHeaderWallpaper = async () => {
     try {
@@ -24,38 +25,35 @@ function Home() {
     }
   };
 
-  const gettrending = async () => {
+  const getTrending = async () => {
     try {
       const { data } = await Axios.get(`/trending/all/day`);
-      settrending(data.results);
+      setTrending(data.results);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const getpopular = async () => {
+  const getPopular = async () => {
     try {
       const { data } = await Axios.get("/tv/top_rated");
-      setpopular(data.results);
+      setPopular(data.results);
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    !wallpaper && getHeaderWallpaper();
-    !trending && gettrending();
-    !popular && getpopular();
+    if (!wallpaper) getHeaderWallpaper();
+    if (!trending.length) getTrending();
+    if (!popular.length) getPopular();
   }, []);
-
 
   return wallpaper && trending && popular ? (
     <>
-      {/* <Navbar /> */}
       <div className="w-[100%] h-full overflow-auto overflow-x-hidden">
-        {/* <Topnav /> */}
         <Header data={wallpaper} />
-        <HorizontalCards data={trending} title={"Movies"} />
+        <HorizontalCards data={trending} title={"Trending"} />
         <HorizontalCards data={popular} title={"TV"} />
       </div>
     </>

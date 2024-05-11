@@ -1,12 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useRecoilState } from "recoil";
 import Axios from "../../utils/Axios";
 import Navbar from "./Navbar";
+import {
+  ultimateDetailsState,
+  isLoadingState,
+  errorState,
+} from "../../utils/Atoms";
 
 const Header = ({ data }) => {
-  const [ultimateDetails, setUltimateDetails] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [ultimateDetails, setUltimateDetails] = useRecoilState(
+    ultimateDetailsState
+  );
+  const [isLoading, setIsLoading] = useRecoilState(isLoadingState);
+  const [error, setError] = useRecoilState(errorState);
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
@@ -31,16 +39,15 @@ const Header = ({ data }) => {
     if (data && data.id) {
       fetchMovieDetails();
     }
-  }, [data]);
-
+  }, [data, setUltimateDetails, setIsLoading, setError]);
   if (isLoading) {
     return <div>Loading...</div>;
   }
-
+  
   if (error) {
     return <div>Error: {error}</div>;
   }
-
+  
   return (
     <div
       style={{

@@ -1,14 +1,23 @@
-import React, { useState, useEffect } from "react";
+// MovieDetails.jsx
+import React, { useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { useRecoilState } from "recoil";
 import Axios from "../utils/Axios";
 import Loading from "./Loading";
 import noimage from "../../public/noimage.jpg";
+import {
+  ultimateDetailsState,
+  isLoadingState,
+  errorState,
+} from "../utils/Atoms";
 
 function MovieDetails() {
   const { id } = useParams();
-  const [ultimateDetails, setUltimateDetails] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [ultimateDetails, setUltimateDetails] = useRecoilState(
+    ultimateDetailsState
+  );
+  const [isLoading, setIsLoading] = useRecoilState(isLoadingState);
+  const [error, setError] = useRecoilState(errorState);
   const navigate = useNavigate();
 
   const title = `${
@@ -71,7 +80,7 @@ function MovieDetails() {
     };
 
     fetchMovieDetails();
-  }, [id]);
+  }, [id, setUltimateDetails, setIsLoading, setError]);
 
   if (isLoading) {
     return <Loading />;
@@ -119,11 +128,11 @@ function MovieDetails() {
 
       <div className="w-full flex ">
         <img
-          className="shadow-[8px_17px_38px_2px_rgba(0,0,0,2)] w-[280px] h-[450px] object-cover "
+          className="shadow-[8px_17px_38px_2px_rgba(0,0,0,.5)] w-[280px] h-[450px] object-cover "
           src={`https://image.tmdb.org/t/p/original/${
             ultimateDetails?.movieData?.poster_path ||
             ultimateDetails?.movieData?.backdrop_path
-          })`}
+          }`}
           alt=""
         />
 
@@ -174,7 +183,7 @@ function MovieDetails() {
                       key={i}
                       title={w?.provider_name}
                       className="h-[5vh] w-[5vh] object-cover rounded-md"
-                      src={`https://image.tmdb.org/t/p/original/${w?.logo_path})`}
+                      src={`https://image.tmdb.org/t/p/original/${w?.logo_path}`}
                       alt=""
                     />
                   ))}
@@ -190,7 +199,7 @@ function MovieDetails() {
                       key={i}
                       title={w?.provider_name}
                       className="h-[5vh] w-[5vh] object-cover rounded-md"
-                      src={`https://image.tmdb.org/t/p/original/${w?.logo_path})`}
+                      src={`https://image.tmdb.org/t/p/original/${w?.logo_path}`}
                       alt=""
                     />
                   ))}
@@ -206,7 +215,7 @@ function MovieDetails() {
                       key={i}
                       title={w?.provider_name}
                       className="h-[5vh] w-[5vh] object-cover rounded-md"
-                      src={`https://image.tmdb.org/t/p/original/${w?.logo_path})`}
+                      src={`https://image.tmdb.org/t/p/original/${w?.logo_path}`}
                       alt=""
                     />
                   ))}

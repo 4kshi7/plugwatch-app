@@ -1,28 +1,32 @@
-import React, { useEffect, useState } from "react";
+// Movie.jsx
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
 import Topnav from "./partials/Topnav";
 import Axios from "../utils/Axios";
 import Cards from "./partials/Cards";
 import Loading from "./Loading";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { movieState, pageState, hasMoreState } from "../utils/Atoms";
 
 const Movie = () => {
-  document.title = "Bollywood"
+  document.title = "Bollywood";
   const navigate = useNavigate();
-  const [category, setCategory] = useState("now_playing");
-  const [movie, setmovie] = useState([]);
-  const [page, setpage] = useState(1);
-  const [hasMore, sethasMore] = useState(true);
+  const [movie, setMovie] = useRecoilState(movieState);
+  const [page, setPage] = useRecoilState(pageState);
+  const [hasMore, setHasMore] = useRecoilState(hasMoreState);
 
-  const getmovie = async () => {
+  const getMovie = async () => {
     try {
-      const { data } = await Axios.get(`/discover/movie?with_origin_country=IN&page=${page}`);
-  
+      const { data } = await Axios.get(
+        `/discover/movie?with_origin_country=IN&page=${page}`
+      );
+
       if (data.results.length > 0) {
-        setmovie((prevState) => [...prevState, ...data.results]);
-        setpage(page + 1);
+        setMovie((prevState) => [...prevState, ...data.results]);
+        setPage(page + 1);
       } else {
-        sethasMore(false);
+        setHasMore(false);
       }
     } catch (error) {
       console.log(error);
@@ -30,19 +34,15 @@ const Movie = () => {
   };
 
   const refreshHandler = () => {
-    if (movie.length === 0) {
-      getmovie();
-    } else {
-      setpage(1);
-      setmovie([]);
-      getmovie();
-    }
+    setPage(1);
+    setMovie([]);
+    setHasMore(true);
+    getMovie();
   };
 
   useEffect(() => {
     refreshHandler();
-    getmovie();
-  }, [category]);
+  }, []);
 
   return movie.length > 0 ? (
     <div className="flex flex-col">
@@ -61,7 +61,7 @@ const Movie = () => {
       <div className="">
         <InfiniteScroll
           dataLength={movie.length}
-          next={getmovie}
+          next={getMovie}
           hasMore={hasMore}
           loader={<>loading</>}
         >

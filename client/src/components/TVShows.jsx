@@ -1,51 +1,53 @@
-import { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Topnav from "./partials/Topnav";
 import Axios from "../utils/Axios";
 import Cards from "./partials/Cards";
 import Loading from "./Loading";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { useRecoilState } from "recoil";
+import {
+  tvShowState,
+  tvShowPageState,
+  tvShowHasMoreState,
+  tvShowCategoryState,
+} from "../utils/Atoms";
 
 const TVShows = () => {
-  document.title = "TV Series"
+  document.title = "TV Series";
   const navigate = useNavigate();
-  const [category, setCategory] = useState("top_rated");
-  const [tvshow, settvshow] = useState([]);
-  const [page, setpage] = useState(1);
-  const [hasMore, sethasMore] = useState(true);
+  const [tvShow, setTvShow] = useRecoilState(tvShowState);
+  const [page, setPage] = useRecoilState(tvShowPageState);
+  const [hasMore, setHasMore] = useRecoilState(tvShowHasMoreState);
+  const [category, setCategory] = useRecoilState(tvShowCategoryState);
 
-  const gettvshow = async () => {
+  const getTvShow = async () => {
     try {
       const { data } = await Axios.get(`/tv/${category}?page=${page}`);
 
       if (data.results.length > 0) {
-        settvshow((prevState) => [...prevState, ...data.results]);
-        setpage(page + 1);
+        setTvShow((prevState) => [...prevState, ...data.results]);
+        setPage(page + 1);
       } else {
-        sethasMore(false);
+        setHasMore(false);
       }
-      //   settvshow(data.results);
     } catch (error) {
       console.log(error);
     }
   };
 
   const refreshHandler = () => {
-    if (tvshow.length === 0) {
-      gettvshow();
-    } else {
-      setpage(1);
-      settvshow([]);
-      gettvshow();
-    }
+    setPage(1);
+    setTvShow([]);
+    setHasMore(true);
+    getTvShow();
   };
 
   useEffect(() => {
     refreshHandler();
-    gettvshow();
   }, [category]);
 
-  return tvshow.length > 0 ? (
+  return tvShow.length > 0 ? (
     <div className="flex flex-col">
       <div className="w-full h-screen flex items-start px-[10%]">
         <div className="w-full flex items-center ">
@@ -61,12 +63,12 @@ const TVShows = () => {
       </div>
       <div className="">
         <InfiniteScroll
-          dataLength={tvshow.length}
-          next={gettvshow}
+          dataLength={tvShow.length}
+          next={getTvShow}
           hasMore={hasMore}
           loader={<>loading</>}
         >
-          <Cards data={tvshow} title="tv" />
+          <Cards data={tvShow} title="tv" />
         </InfiniteScroll>
       </div>
     </div>

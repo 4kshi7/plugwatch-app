@@ -1,50 +1,60 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Topnav from "./partials/Topnav";
 import Axios from "../utils/Axios";
 import Cards from "./partials/Cards";
 import Loading from "./Loading";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { useRecoilState } from "recoil";
+import {
+  trendingState,
+  pageState,
+  hasMoreState,
+  categoryState,
+  durationState,
+} from "../utils/Atoms";
 
 const Trending = () => {
-  document.title = "Trending"
+  document.title = "Trending";
   const navigate = useNavigate();
-  const [category, setCategory] = useState("all");
-  const [duration, setduration] = useState("day");
-  const [trending, settrending] = useState([]);
-  const [page, setpage] = useState(1);
-  const [hasMore, sethasMore] = useState(true);
+  const [trending, setTrending] = useRecoilState(trendingState);
+  const [page, setPage] = useRecoilState(pageState);
+  const [hasMore, setHasMore] = useRecoilState(hasMoreState);
+  const [category, setCategory] = useRecoilState(categoryState);
+  const [duration, setDuration] = useRecoilState(durationState);
 
-  const gettrending = async () => {
+  useEffect(() => {
+    // Initialize trending state with an empty array
+    setTrending([]);
+  }, []);
+
+  const getTrending = async () => {
     try {
-      const { data } = await Axios.get(`/trending/${category}/${duration}?page=${page}`);
+      const { data } = await Axios.get(
+        `/trending/${category}/${duration}?page=${page}`
+      );
 
       if (data.results.length > 0) {
-        settrending((prevState) => [...prevState, ...data.results]);
-        setpage(page + 1);
+        setTrending((prevState) => [...prevState, ...data.results]);
+        setPage(page + 1);
       } else {
-        sethasMore(false);
+        setHasMore(false);
       }
-      //   settrending(data.results);
     } catch (error) {
       console.log(error);
     }
   };
 
   const refreshHandler = () => {
-    if (trending.length === 0) {
-      gettrending();
-    } else {
-      setpage(1);
-      settrending([]);
-      gettrending
-    }
+    setPage(1);
+    setTrending([]);
+    setHasMore(true);
+    getTrending();
   };
 
   useEffect(() => {
     refreshHandler();
-    gettrending();
-  }, [category, duration]);
+  }, []);
 
   return trending.length > 0 ? (
     <div className="flex flex-col">
@@ -63,7 +73,7 @@ const Trending = () => {
       <div className="">
         <InfiniteScroll
           dataLength={trending.length}
-          next={gettrending}
+          next={getTrending}
           hasMore={hasMore}
           loader={<>loading</>}
         >

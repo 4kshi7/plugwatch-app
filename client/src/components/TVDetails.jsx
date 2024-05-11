@@ -1,18 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { useRecoilState } from "recoil";
 import Axios from "../utils/Axios";
 import Loading from "./Loading";
 import noimage from "../../public/noimage.jpg";
+import {
+  ultimateTvDetailsState,
+  isTvLoadingState,
+  tvErrorState,
+} from "../utils/Atoms";
 
-function tvDetails() {
+function TvDetails() {
   const { id } = useParams();
-  const [ultimateDetails, setUltimateDetails] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [ultimateDetails, setUltimateDetails] = useRecoilState(
+    ultimateTvDetailsState
+  );
+  const [isLoading, setIsLoading] = useRecoilState(isTvLoadingState);
+  const [error, setError] = useRecoilState(tvErrorState);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchtvDetails = async () => {
+    const fetchTvDetails = async () => {
       try {
         const [
           tvResponse,
@@ -61,8 +69,8 @@ function tvDetails() {
       }
     };
 
-    fetchtvDetails();
-  }, [id]);
+    fetchTvDetails();
+  }, [id, setUltimateDetails, setIsLoading, setError]);
 
   if (isLoading) {
     return <Loading />;
@@ -226,7 +234,11 @@ function tvDetails() {
             <div key={i} className="w-[30vh] mr-[5%]">
               <img
                 className="shadow-[8px_17px_38px_2px_rgba(0,0,0,.5)] min-w-[15vw] h-[50vh] object-cover"
-                src={s?.poster_path ? `https://image.tmdb.org/t/p/original/${s?.poster_path}` : noimage}
+                src={
+                  s?.poster_path
+                    ? `https://image.tmdb.org/t/p/original/${s?.poster_path}`
+                    : noimage
+                }
                 alt=""
               />
               <div className="flex items-center">
@@ -246,14 +258,18 @@ function tvDetails() {
         <div className="w-[85vw] flex overflow-y-hidden mb-5 p-5">
           {ultimateDetails?.credits?.cast?.map((s, i) => (
             <Link
-            key={i}
+              key={i}
               to={`/person/details/${ultimateDetails?.credits?.cast[i]?.id}`}
               className="w-[30vh] mr-[5%]"
             >
               <div key={i} className="">
                 <img
                   className="shadow-[8px_17px_38px_2px_rgba(0,0,0,.5)] min-w-[15vw] h-[50vh] object-cover"
-                  src={s?.profile_path ? `https://image.tmdb.org/t/p/original/${s?.profile_path}` : noimage}
+                  src={
+                    s?.profile_path
+                      ? `https://image.tmdb.org/t/p/original/${s?.profile_path}`
+                      : noimage
+                  }
                   alt=""
                 />
                 <div className="flex flex-col">
@@ -276,4 +292,4 @@ function tvDetails() {
   );
 }
 
-export default tvDetails;
+export default TvDetails;

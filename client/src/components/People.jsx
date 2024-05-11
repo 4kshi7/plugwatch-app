@@ -1,17 +1,25 @@
-import { useState, useEffect } from "react";
+// People.jsx
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Topnav from "./partials/Topnav";
 import Axios from "../utils/Axios";
 import Cards from "./partials/Cards";
 import Loading from "./Loading";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { useRecoilState } from "recoil";
+import {
+  personState,
+  personPageState,
+  personHasMoreState,
+  personCategoryState,
+} from "../utils/Atoms";
 
 const People = () => {
   const navigate = useNavigate();
-  const [category, setCategory] = useState("popular");
-  const [person, setPerson] = useState([]);
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
+  const [person, setPerson] = useRecoilState(personState);
+  const [page, setPage] = useRecoilState(personPageState);
+  const [hasMore, setHasMore] = useRecoilState(personHasMoreState);
+  const [category, setCategory] = useRecoilState(personCategoryState);
   const [loading, setLoading] = useState(false); // Add loading state
 
   const getPerson = async () => {
@@ -41,9 +49,6 @@ const People = () => {
 
   useEffect(() => {
     refreshHandler();
-    return () => {
-      // Cleanup function to cancel any pending requests or subscriptions
-    };
   }, [category]);
 
   return (
